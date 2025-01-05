@@ -1,0 +1,27 @@
+{
+  "nr_of_tracks" : 3,
+  "tracklist" : {
+    "I thought about killing you" : {
+      "release_date" : "",
+      "price" : 0.99,
+      "name" : "I thought about killing you",
+      "length" : "0:4:12"
+    },
+    "Yikes" : {
+      "release_date" : "",
+      "price" : 0.99,
+      "name" : "Yikes",
+      "length" : "0:2:43"
+    },
+    "All Mine" : {
+      "release_date" : "",
+      "price" : 0.99,
+      "name" : "All Mine",
+      "length" : "0:3:2"
+    }
+  },
+  "release_date" : "",
+  "price" : 0.0,
+  "name" : "Ye",
+  "length" : "0:0:0"
+}
