@@ -36,7 +36,7 @@ public class Single extends RecordBase {
     @Override
     public Map<String, Object> MapObject(){
         Map<String, Object> jsonMap = super.MapObject();
-
+        //implement for sets
         return jsonMap;
     }
 

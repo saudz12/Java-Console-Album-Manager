@@ -1,16 +1,8 @@
 package org.example.Modules;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.Interfaces.IView;
-import org.javatuples.Triplet;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 public class CLI implements IView {
     Menu menu;
@@ -36,13 +28,14 @@ public class CLI implements IView {
         System.out.println("0. Exit");
         System.out.println("1. View Album List");
         System.out.println("2. Add Album");
-        System.out.println("3. Edit current");
-        System.out.println("4. Save current");
-        System.out.println("5. Load Album");
-        System.out.println("6. View Album");
-        System.out.println("7. Remove Album");
+        System.out.println("3. Save current");
+        System.out.println("4. Load Album");
+        System.out.println("5. View Album");
+        System.out.println("6. Remove Album");
         if(menu.activeFullName != null)
             System.out.println("Current album: " + menu.activeFullName);
+        System.out.println("\nChose an action: ");
+
     }
 
     @Override
@@ -54,7 +47,18 @@ public class CLI implements IView {
                 case 0:{
                     Flush();
                     //exit
-                    System.out.println("Saving, please wait...");
+                    System.out.println("Save changes before exiting? 1 (YES) / 0 (NO)");
+                    int save = in.nextInt();
+                    switch (save){
+                        case 1:
+                            System.out.println("Saving, please wait...");
+                            SaveAlbum();
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            System.out.println("Invalid input, the album will not be saved");
+                    }
                     return;
                 }
                 case 1:{
@@ -67,50 +71,36 @@ public class CLI implements IView {
                     Flush();
                     //add album
                     AddAlbum();
-                    break;
-                }
-                case 3:{
-                    Flush();
                     EditCurrentAlbum();
                     break;
                 }
-                case 4:{
+                //case 3:{
+                //    Flush();
+                //    EditCurrentAlbum();
+                //    System.out.println("Saving, please wait..");
+                //    SaveAlbum();
+                //    break;
+                //}
+                case 3:{
                     Flush();
                     SaveAlbum();
                     break;
                 }
-                case 5:{
+                case 4:{
                     Flush();
                     LoadAlbum();
+                    EditCurrentAlbum();
                     break;
                 }
-                case 6:{
+                case 5:{
                     Flush();
                     ViewAlbum();
                     //remove album
                     break;
                 }
-                case 7:{
+                case 6:{
                     Flush();
                     RemoveAlbum();
-                    break;
-                }
-                case 8:{
-                    Flush();
-                    ObjectMapper objectMapper = new ObjectMapper();
-
-                    Album s = new Album("Ye", "Kanye West");
-                    s.AddTrack(new Single("I thought about killing you", new Triplet<>(0, 4, 12), 0.99));
-                    s.AddTrack(new Single("Yikes", new Triplet<>(0, 2, 43), 0.99));
-                    s.AddTrack(new Single("All Mine", new Triplet<>(0, 3, 2), 0.99));
-
-                    try {
-                        String jsonString = objectMapper.writeValueAsString(s.MapObject());
-                        System.out.println(jsonString);
-                        System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(s.MapObject()));
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
                     break;
                 }
                 default:{
@@ -132,21 +122,28 @@ public class CLI implements IView {
         System.out.println("\n\n");
     }
 
+    @Override
     public void AddAlbum(){
-        System.out.println("State a name and an artist:");
+        System.out.println("State an album name and an artist's name:");
         String name = in.next(), artist = in.next();
         menu.CreateAlbum(name, artist);
         current_name = name;
         current_artist = artist;
     }
 
+
+    @Override
     public void SaveAlbum(){
         if(menu.SaveAlbum())
             System.out.println("Album saved successfully");
+        else
+            System.out.println("Nothing to save..");
     }
 
+    @Override
     public void LoadAlbum(){
-        System.out.println("State a name and an artist:");
+        PrintAllNames();
+        System.out.println("State an album name and an artist's name:");
         String name = in.next(), artist = in.next();
         if(menu.LoadAlbum(name, artist))
             System.out.println("Album loaded successfully");
@@ -156,7 +153,8 @@ public class CLI implements IView {
 
     @Override
     public void ViewAlbum(){
-        System.out.println("State a name and an artist");
+        PrintAllNames();
+        System.out.println("State an album name and an artist's name");
         String name = in.next();
         String artist = in.next();
         String result = menu.GetInfo(name, artist);
@@ -167,13 +165,16 @@ public class CLI implements IView {
             System.out.println(result);
     }
 
+    @Override
     public void RemoveAlbum(){
-        System.out.println("State a name and an artist");
+        PrintAllNames();
+        System.out.println("State an album name and an artist's name");
         String name = in.next();
         String artist = in.next();
         if(!menu.RemoveAlbum(name, artist))
             System.out.println("Album not found..");
         else {
+            System.out.println("Album succesfully removed..");
             current_name = null;
             current_artist = null;
         }
@@ -191,17 +192,31 @@ public class CLI implements IView {
         System.out.println("6. Change Release Date");
     }
 
+    @Override
     public void EditCurrentAlbum(){
         if(menu.activeFullName == null){
             System.out.println("No album selected.. Select one by adding(creating a new one) or loading one(importing an existing one)");
             return;
         }
         while (true){
-            PrintAllNames();
+            //PrintAllNames();
+            System.out.println(menu.activeAlbum.MapObject());
             PrintAlbumOptions();
             int op = in.nextInt();
             switch (op){
                 case 0:
+                    System.out.println("Save changes before exiting? 1 (YES) / 0 (NO)");
+                    int save = in.nextInt();
+                    switch (save){
+                        case 1:
+                            System.out.println("Saving, please wait...");
+                            SaveAlbum();
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            System.out.println("Invalid input, the album will not be saved");
+                    }
                     return;
                 case 1:
                 {
@@ -241,13 +256,13 @@ public class CLI implements IView {
                 }
                 default:{
                     Flush();
+                    System.out.println("Err: Invalid Option..");
                 }
-                System.out.println("");
-
             }
         }
     }
 
+    @Override
     public void ViewTracklist(){
         var tl = menu.activeAlbum.GetTracklist();
         System.out.println("Current Tracklist: " + menu.activeAlbum.GetNrOfTracks() + "tracks, runtime of " + menu.activeAlbum.GetLength());
@@ -256,11 +271,13 @@ public class CLI implements IView {
         }
     }
 
+    @Override
     public void AddTrack(){
         String name = in.next();
         menu.AddTrack(name);
     }
 
+    @Override
     public void RemoveTrack(){
         String trackName = in.next();
         if(menu.RemoveTrack(trackName))
@@ -272,38 +289,13 @@ public class CLI implements IView {
             System.out.println("Track not found..");
     }
 
-    public void EditTrack(){
-        while (true){
-            int option = in.nextInt();
-            switch (option){
-                case 0:
-                    return;
-                case 1:{
-                    Flush();
-
-                }
-                case 2:{
-                    Flush();
-
-                }
-                case 3:{
-                    Flush();
-
-                }
-                default:{
-                    Flush();
-                }
-                System.out.println("");
-            }
-        }
-    }
-
+    @Override
     public void ChangeReleaseDate(){
         String releaseDate = in.next();
         if(menu.activeAlbum.SetReleaseDate(releaseDate))
             System.out.println("Release date successfully change to " + releaseDate);
         else
-            System.out.println("new release date does not match format [\\d\\d][\\d\\d][\\d\\d\\d\\d]");
+            System.out.println("new release date does not match format <\\d\\d/\\d\\d/[1-9]\\d\\d\\d>");
     }
 
 
@@ -316,16 +308,49 @@ public class CLI implements IView {
         System.out.println("3. Change Release Date");
     }
 
-    public void ChangeName(){
+    @Override
+    public void EditTrack(){
+        while (true){
+            System.out.println(menu.activeTrack.MapObject());
+            PrintTrackOptions();
+            int option = in.nextInt();
+            switch (option){
+                case 0:
+                    return;
+                case 1:{
+                    Flush();
+                    ChangeTrackName();
+                }
+                case 2:{
+                    Flush();
+                    ChangeTrackDuration();
+                }
+                case 3:{
+                    Flush();
+                    ChangeTrackReleaseDate();
+                }
+                default:{
+                    Flush();
+                    System.out.println("Err: Invalid Option..");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void ChangeTrackName(){
+        System.out.println("Name the track: ");
         String name = in.next();
         menu.activeTrack.SetName(name);
     }
 
-    public void ChangeDuration(){
+    @Override
+    public void ChangeTrackDuration(){
+        System.out.println("Read length in {hours, minutes, seconds} for the track: ");
         int h = in.nextInt(), m = in.nextInt(), s = in.nextInt();
         if(menu.ChangeDurationToActiveTrack(h, m, s))
         {
-            System.out.println("Release date successfully change to " + menu.activeTrack.LengthToString());
+            System.out.println("Length change to " + menu.activeTrack.LengthToString());
             System.out.println(" " + menu.activeTrack.LengthToString());
         }
         else
@@ -333,4 +358,13 @@ public class CLI implements IView {
 
     }
 
+    @Override
+    public void ChangeTrackReleaseDate(){
+        String date = in.next();
+        if(menu.activeTrack.SetReleaseDate(date))
+            System.out.println("Release date successfully change to " + date);
+        else
+            System.out.println(date + " does not match <\\d\\d/\\d\\d/[1-9]\\d\\d\\d> format");
+
+    }
 }

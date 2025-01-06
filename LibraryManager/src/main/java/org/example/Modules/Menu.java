@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.Interfaces.IController;
+import org.javatuples.Triplet;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -111,11 +112,71 @@ public class Menu implements IController {
         try {
             if(!myFile.exists())
                 return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> jsonMap = objectMapper.readValue(myFile, Map.class);
+
+            Album parsedAlbum = new Album(name, artist);
+
+            String parsedName = (String) jsonMap.get("name");
+            parsedAlbum.SetName(parsedName);
+
+            double parsedPrice = (Double) jsonMap.get("price");
+            parsedAlbum.SetPrice(parsedPrice);
+
+            String parsedRelease = (String) jsonMap.get("release_date");
+            parsedAlbum.SetReleaseDate(parsedRelease);
+
+            //String parsedLength = (String) jsonMap.get("length");
+            //String[] vals = parsedLength.split(":");
+            //int h = Integer.parseInt(vals[0]);
+            //int m = Integer.parseInt(vals[1]);
+            //int s = Integer.parseInt(vals[2]);
+            //parsedAlbum.SetLength(h, m, s);
+
+            ArrayList<Single> parsedTracklsit = new ArrayList<>();
+
+            Map<String, Object> singleDetails = (Map<String, Object>) jsonMap.get("tracklist");
+            for(String key : singleDetails.keySet()){
+                Map<String, Object> trackDetail = (Map<String, Object>) singleDetails.get(key);
+
+                Single parsedSingle = new Single(key);
+
+                String parsedSingleName = (String) trackDetail.get("name");
+                parsedSingle.SetName(parsedSingleName);
+
+                double parsedSinglePrice = (Double) trackDetail.get("price");
+                parsedSingle.SetPrice(parsedSinglePrice);
+
+                String parsedSingleRelease = (String) trackDetail.get("release_date");
+                parsedSingle.SetReleaseDate(parsedSingleRelease);
+
+                String parsedSingleLength = (String) trackDetail.get("length");
+                String[] vals2 = parsedSingleLength.split(":");
+                int sh = Integer.parseInt(vals2[0]);
+                int sm = Integer.parseInt(vals2[1]);
+                int ss = Integer.parseInt(vals2[2]);
+
+                parsedSingle.SetLength(sh, sm, ss);
+
+                parsedTracklsit.add(parsedSingle);
+            }
+
+            parsedAlbum.SetTracklist(parsedTracklsit);
+
+            activeAlbum = parsedAlbum;
+            activeFullName = name + "-" + artist;
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
+
         return true;
     }
 
@@ -157,12 +218,16 @@ public class Menu implements IController {
 
         File myFile = new File(Menu.pathname + fullname + ".json");
         myFile.delete();
+        albums.remove(fullname);
 
         if(fullname.equals(activeFullName)){
             activeFullName = null;
+            activeSingleFullName = null;
             activeAlbum = null;
             activeTrack = null;
         }
+
+        Reload();
 
         return true;
     }
@@ -207,6 +272,38 @@ public class Menu implements IController {
     public boolean ChangeDurationToActiveTrack(int h, int m, int s){
         if(activeTrack == null)
             return false;
+        if(!activeTrack.SetLength(h, m, s))
+            return false;
 
+        int dH, dM, dS;
+        dH = activeTrack.GetLength().getValue0();
+        dM = activeTrack.GetLength().getValue1();
+        dS = activeTrack.GetLength().getValue2();
+
+        int oldH, oldM, oldS;
+        oldH = activeAlbum.GetLength().getValue0();
+        oldM = activeAlbum.GetLength().getValue1();
+        oldS = activeAlbum.GetLength().getValue2();
+
+        int newH = oldH, newM = oldM, newS = oldS;
+
+        newS = newS - dS + s;
+        while (newS < 0){
+            newS += 60;
+            newM -= 1;
+        }
+        newM = newM - dM + m;
+        while (newM < 0){
+            newM += 60;
+            newH -= 1;
+        }
+        newH = newH - dH + h;
+        if(newH < 0) {
+            activeTrack.SetLength(dH, dM, dS);
+            return false;
+        }
+
+        activeAlbum.SetLength(newH, newM, newS);
+        return  true;
     }
 }

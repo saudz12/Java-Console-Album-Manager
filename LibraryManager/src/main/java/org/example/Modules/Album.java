@@ -98,9 +98,9 @@ public class Album extends RecordBase{
         for(var track : tracklist){
             super.GetGenres().addAll(track.GetGenres());
             Triplet<Integer,Integer,Integer> trackDuration = track.GetLength();
-            s += trackDuration.getValue0();
+            s += trackDuration.getValue2();
             m += s / 60 + trackDuration.getValue1();
-            h += m / 60 + trackDuration.getValue2();
+            h += m / 60 + trackDuration.getValue0();
             m %= 60;
             s %= 60;
         }
