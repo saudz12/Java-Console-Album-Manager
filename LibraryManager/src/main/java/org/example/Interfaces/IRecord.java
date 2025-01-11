@@ -41,6 +41,6 @@ public interface IRecord {
     boolean RemoveArtist(String name);
 
     boolean AddGenre(String genre);
-    boolean RemoveGenre(String genre);
+        boolean RemoveGenre(String genre);
 
 }

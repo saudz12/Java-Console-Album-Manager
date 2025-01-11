@@ -133,13 +133,6 @@ public class Menu implements IController {
             String parsedRelease = (String) jsonMap.get("release_date");
             parsedAlbum.SetReleaseDate(parsedRelease);
 
-            //String parsedLength = (String) jsonMap.get("length");
-            //String[] vals = parsedLength.split(":");
-            //int h = Integer.parseInt(vals[0]);
-            //int m = Integer.parseInt(vals[1]);
-            //int s = Integer.parseInt(vals[2]);
-            //parsedAlbum.SetLength(h, m, s);
-
             ArrayList<Single> parsedTracklsit = new ArrayList<>();
 
             Map<String, Object> singleDetails = (Map<String, Object>) jsonMap.get("tracklist");
@@ -364,7 +357,7 @@ public class Menu implements IController {
                 return true;
             }
         activeTrack = null;
-        return true;
+        return false;
     }
 
     @Override

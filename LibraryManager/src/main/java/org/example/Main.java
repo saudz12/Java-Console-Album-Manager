@@ -1,10 +1,10 @@
 package org.example;
 
-import org.example.Modules.CLI;
+import org.example.Modules.View;
 
 public class Main {
     public static void main(String[] args) {
-        CLI albumManager = new CLI();
+        View albumManager = new View();
 
         try{
             albumManager.Run();

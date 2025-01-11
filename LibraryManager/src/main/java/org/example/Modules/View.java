@@ -4,7 +4,7 @@ import org.example.Interfaces.IView;
 
 import java.util.Scanner;
 
-public class CLI implements IView {
+public class View implements IView {
     Menu menu;
 
     Scanner in;
@@ -12,8 +12,8 @@ public class CLI implements IView {
     String current_name = null;
     String current_artist = null;
 
-    public CLI(){
-        in = new Scanner(System.in);
+    public View(){
+        in = new Scanner(System.in).useDelimiter("\\n");
         menu = new Menu();
     }
 
@@ -33,7 +33,7 @@ public class CLI implements IView {
         System.out.println("5. View Album");
         System.out.println("6. Remove Album");
         if(menu.activeFullName != null)
-            System.out.println("Current album: " + menu.activeFullName);
+            System.out.println("Current alb um: " + menu.activeFullName);
         System.out.println("\nChose an action: ");
 
     }
@@ -114,8 +114,9 @@ public class CLI implements IView {
     @Override
     public void AddAlbum() {
         PrintAllNames();
-        System.out.println("State an album name and an artist's name:");
+        System.out.println("State an album name: ");
         String name = in.next();
+        System.out.println("State an artist name: ");
         String artist = in.next();
         if (menu.CreateAlbum(name, artist)) {
             current_name = name;
@@ -138,8 +139,10 @@ public class CLI implements IView {
     @Override
     public void LoadAlbum(){
         PrintAllNames();
-        System.out.println("State an album name and an artist's name:");
-        String name = in.next(), artist = in.next();
+        System.out.println("State an album name: ");
+        String name = in.next();
+        System.out.println("State an artist name: ");
+        String artist = in.next();
         if(menu.LoadAlbum(name, artist)) {
             System.out.println("Album loaded successfully");
             current_name = name;
@@ -153,8 +156,9 @@ public class CLI implements IView {
     @Override
     public void ViewAlbum(){
         PrintAllNames();
-        System.out.println("State an album name and an artist's name");
+        System.out.println("State an album name: ");
         String name = in.next();
+        System.out.println("State an artist name: ");
         String artist = in.next();
         String result = menu.GetInfo(name, artist);
 
@@ -167,8 +171,9 @@ public class CLI implements IView {
     @Override
     public void RemoveAlbum(){
         PrintAllNames();
-        System.out.println("State an album name and an artist's name");
+        System.out.println("State an album name: ");
         String name = in.next();
+        System.out.println("State an artist name: ");
         String artist = in.next();
         if(!menu.RemoveAlbum(name, artist))
             System.out.println("Album not found..");
@@ -285,7 +290,6 @@ public class CLI implements IView {
         String name = in.next();
         if(menu.AddTrack(name)){
             System.out.println("Track added successfully!");
-            EditTrack();
         }
         else {
             System.out.println("Track couldn't be added..");
@@ -308,7 +312,7 @@ public class CLI implements IView {
     @Override
     public void ChangeReleaseDate(){
         System.out.println("Enter the new release date:");
-        String releaseDate = in.nextLine();
+        String releaseDate = in.next();
         if(menu.activeAlbum.SetReleaseDate(releaseDate))
             System.out.println("Release date successfully change to " + releaseDate);
         else
@@ -318,7 +322,7 @@ public class CLI implements IView {
     @Override
     public void AddGenreToAlbum(){
         System.out.println("Enter a genre to add: ");
-        String genre = in.nextLine();
+        String genre = in.next();
         if(menu.activeAlbum.AddGenre(genre))
             System.out.println("Genre added successfully!");
         else
@@ -346,7 +350,7 @@ public class CLI implements IView {
             return;
         }
         System.out.println("Select a track to edit: ");
-        String name = in.nextLine();
+        String name = in.next();
         if(menu.SelectTrack(name)){
             System.out.println("Track selected successfully");
         }
@@ -400,7 +404,7 @@ public class CLI implements IView {
         ViewTracklist();
         ViewTrackInfo();
         System.out.println("Enter the new name: ");
-        String name = in.nextLine();
+        String name = in.next();
         if(menu.ChangeActiveTrackName(name)){
             System.out.println("Name changed successfully to " + name + "!");
         }
@@ -448,7 +452,7 @@ public class CLI implements IView {
     @Override
     public void AddGenreToTrack(){
         System.out.println("Enter a genre to add: ");
-        String genre = in.nextLine();
+        String genre = in.next();
         if(menu.AddGenreToActiveTrack(genre)){
             System.out.println("Genre added successfully!");
         }

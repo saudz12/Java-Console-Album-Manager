@@ -122,7 +122,14 @@ public class Album extends RecordBase{
     public boolean AddTrack(Single track, int pos){
         if(pos < 1)
             return false;
+        if(pos == nrOfTracks)
+            return AddTrack(track);
+        for(Single s :tracklist)
+            if(s.GetName() == track.GetName())
+                return false;
         this.tracklist.add(pos - 1, track);
+        super.GetGenres().addAll(track.GetGenres());
+        this.nrOfTracks++;
         return true;
     }
 
