@@ -157,20 +157,20 @@ public class Menu implements IController {
                 int ss = Integer.parseInt(vals2[2]);
                 parsedSingle.SetLength(sh, sm, ss);
 
-                Set<String> performerSet = (Set<String>) trackDetail.get("performers");
+                Set<String> performerSet = ListToSet((List<String>) trackDetail.get("performers"));
                 parsedSingle.SetArtists(performerSet, IRecord.ContributionType.Performer);
 
-                Set<String> writerSet = (Set<String>) trackDetail.get("writers");
+                Set<String> writerSet = ListToSet((List<String>) trackDetail.get("writers"));
                 parsedSingle.SetArtists(writerSet, IRecord.ContributionType.Writer);
 
-                Set<String> producerSet = (Set<String>) trackDetail.get("producers");
+                Set<String> producerSet = ListToSet((List<String>) trackDetail.get("producers"));
                 parsedSingle.SetArtists(producerSet, IRecord.ContributionType.Producer);
 
                 parsedTracklsit.add(parsedSingle);
             }
             parsedAlbum.SetTracklist(parsedTracklsit);
 
-            Set<String> composerSet = (Set<String>) jsonMap.get("composers");
+            Set<String> composerSet = ListToSet((List<String>) jsonMap.get("composers"));
             parsedAlbum.SetArtists(composerSet, IRecord.ContributionType.Composer);
 
             activeAlbum = parsedAlbum;
@@ -180,9 +180,13 @@ public class Menu implements IController {
             throw new RuntimeException(e);
         }
 
-
-
         return true;
+    }
+
+    static Set<String> ListToSet(List<String> toConvert){
+        Set<String> set = new HashSet<>();
+        set.addAll(toConvert);
+        return set;
     }
 
     @Override

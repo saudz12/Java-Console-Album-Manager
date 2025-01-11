@@ -10,7 +10,7 @@ public interface IController {
     public ArrayList<String> GetAlbumList();
     public boolean CreateAlbum(String name, String artist);
     public boolean SetReleaseDate(String date);
-    String GetInfo(String name, String artist);
+    public String GetInfo(String name, String artist);
     public boolean LoadAlbum(String name, String artist);
     public boolean SaveAlbum();
     public boolean RemoveAlbum(String name, String artist);

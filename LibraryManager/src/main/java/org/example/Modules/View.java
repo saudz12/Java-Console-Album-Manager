@@ -272,7 +272,7 @@ public class View implements IView {
         var tl = menu.activeAlbum.GetTracklist();
         System.out.println("Current Tracklist: " + menu.activeAlbum.GetNrOfTracks() + "tracks, runtime of " + menu.activeAlbum.GetLength());
         for(int i = 0; i < tl.size(); i++){
-            System.out.println(i + ". " + tl.get(i).GetName());
+            System.out.println(i+1 + ". " + tl.get(i).GetName());
         }
     }
 
