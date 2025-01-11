@@ -16,7 +16,11 @@ public interface IController {
     public boolean RemoveAlbum(String name, String artist);
     public boolean RemoveTrack(String trackName);
     public boolean AddTrack(String name);
+    public boolean AddGenreToActiveAlbum(String genre);
     public boolean ViewTrackInfo(String name);
     public boolean ChangeActiveTrackName(String name);
     public boolean ChangeDurationToActiveTrack(int h, int m, int s);
+    public boolean AddContributionToActiveTrack(String name, int contributionIdx);
+    public boolean SelectTrack(String name);
+    public boolean AddGenreToActiveTrack(String genre);
 }

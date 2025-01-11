@@ -189,6 +189,7 @@ public class CLI implements IView {
         System.out.println("4. Remove Track");
         System.out.println("5. Edit Track");
         System.out.println("6. Change Release Date");
+        System.out.println("7. Add genre");
     }
 
     @Override
@@ -270,8 +271,12 @@ public class CLI implements IView {
         }
     }
 
+    @Override
     public void ViewTrackInfo(){
-        
+        String name = in.next();
+        if(!menu.ViewTrackInfo(name)){
+            System.out.println("Couldn't view any information regarding that track..");
+        }
     }
 
     @Override
@@ -303,13 +308,22 @@ public class CLI implements IView {
     @Override
     public void ChangeReleaseDate(){
         System.out.println("Enter the new release date:");
-        String releaseDate = in.next();
+        String releaseDate = in.nextLine();
         if(menu.activeAlbum.SetReleaseDate(releaseDate))
             System.out.println("Release date successfully change to " + releaseDate);
         else
             System.out.println("new release date does not match format <\\d\\d/\\d\\d/[1-9]\\d\\d\\d>");
     }
 
+    @Override
+    public void AddGenreToAlbum(){
+        System.out.println("Enter a genre to add: ");
+        String genre = in.nextLine();
+        if(menu.activeAlbum.AddGenre(genre))
+            System.out.println("Genre added successfully!");
+        else
+            System.out.println("Couldn't add " + genre + " as genre.");
+    }
 
     @Override
     public void PrintTrackOptions() {
@@ -318,6 +332,8 @@ public class CLI implements IView {
         System.out.println("1. Change Name");
         System.out.println("2. Change Duration");
         System.out.println("3. Change Release Date");
+        System.out.println("4. Add contribution");
+        System.out.println("5. Add genre");
     }
 
     @Override
@@ -330,9 +346,16 @@ public class CLI implements IView {
             return;
         }
         System.out.println("Select a track to edit: ");
-
+        String name = in.nextLine();
+        if(menu.SelectTrack(name)){
+            System.out.println("Track selected successfully");
+        }
+        else{
+            System.out.println("Track couldn't be selected..");
+            return;
+        }
         while (true){
-            System.out.println(menu.activeTrack.MapObject());
+            menu.ViewTrackInfo(name);
             PrintTrackOptions();
             int option = in.nextInt();
             switch (option){
@@ -353,6 +376,16 @@ public class CLI implements IView {
                     ChangeTrackReleaseDate();
                     break;
                 }
+                case 4:{
+                    Flush();
+                    AddContribution();
+                    break;
+                }
+                case 5:{
+                    Flush();
+                    AddGenreToTrack();
+                    break;
+                }
                 default:{
                     Flush();
                     System.out.println("Err: Invalid Option..");
@@ -365,9 +398,14 @@ public class CLI implements IView {
     @Override
     public void ChangeTrackName(){
         ViewTracklist();
+        ViewTrackInfo();
         System.out.println("Enter the new name: ");
-        String name = in.next();
-        menu.activeTrack.SetName(name);
+        String name = in.nextLine();
+        if(menu.ChangeActiveTrackName(name)){
+            System.out.println("Name changed successfully to " + name + "!");
+        }
+        else
+            System.out.println("Couldn't change the track's name to " + name + "..");
     }
 
     @Override
@@ -381,7 +419,6 @@ public class CLI implements IView {
         }
         else
             System.out.println("Couldn't change track's duration to " + menu.activeTrack.LengthToString());
-
     }
 
     @Override
@@ -392,6 +429,31 @@ public class CLI implements IView {
             System.out.println("Release date successfully change to " + date);
         else
             System.out.println(date + " does not match <\\d\\d/\\d\\d/[1-9]\\d\\d\\d> format");
+    }
+
+    @Override
+    public void AddContribution(){
+        System.out.println("Enter the contributors name..");
+        String name = in.next();
+        System.out.println("What type of contribution do you want to add?\n1. Performer\n2. Writer\n3. Producer");
+        int contribution = in.nextInt();
+        if (menu.AddContributionToActiveTrack(name, contribution)){
+            System.out.println("Contribution added!");
+        }
+        else{
+            System.out.println("Couldn't add contribution..");
+        }
+    }
+
+    @Override
+    public void AddGenreToTrack(){
+        System.out.println("Enter a genre to add: ");
+        String genre = in.nextLine();
+        if(menu.AddGenreToActiveTrack(genre)){
+            System.out.println("Genre added successfully!");
+        }
+        else
+            System.out.println("Genre couldn't be added.. ");
 
     }
 }

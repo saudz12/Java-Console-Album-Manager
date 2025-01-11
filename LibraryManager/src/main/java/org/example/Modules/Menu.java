@@ -278,13 +278,12 @@ public class Menu implements IController {
 
         Single toAdd = new Single(name);
 
-        if(activeAlbum.AddTrack(toAdd))
-        {
-            activeTrack = toAdd;
-            return true;
-        }
+        return activeAlbum.AddTrack(toAdd);
+    }
 
-        return false;
+    @Override
+    public boolean AddGenreToActiveAlbum(String genre){
+        return activeAlbum.AddGenre(genre);
     }
 
     @Override
@@ -346,4 +345,31 @@ public class Menu implements IController {
         activeAlbum.SetLength(newH, newM, newS);
         return  true;
     }
+
+    @Override
+    public boolean AddContributionToActiveTrack(String name, int contributionIdx){
+        return switch (contributionIdx) {
+            case 1 -> activeTrack.AddArtist(name, IRecord.ContributionType.Performer);
+            case 2 -> activeTrack.AddArtist(name, IRecord.ContributionType.Writer);
+            case 3 -> activeTrack.AddArtist(name, IRecord.ContributionType.Producer);
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean SelectTrack(String name){
+        for(Single track : activeAlbum.GetTracklist())
+            if(track.GetName() == name){
+                activeTrack = track;
+                return true;
+            }
+        activeTrack = null;
+        return true;
+    }
+
+    @Override
+    public boolean AddGenreToActiveTrack(String genre){
+        return activeTrack.AddGenre(genre);
+    }
+
 }

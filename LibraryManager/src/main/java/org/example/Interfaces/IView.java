@@ -16,11 +16,15 @@ public interface IView {
     public void PrintAlbumOptions();
     public void EditCurrentAlbum();
     public void ViewTracklist();
+    public void ViewTrackInfo();
     public void AddTrack();
     public void RemoveTrack();
     public void ChangeReleaseDate();
+    public void AddGenreToAlbum();
     public void EditTrack();
     public void ChangeTrackName();
     public void ChangeTrackDuration();
     public void ChangeTrackReleaseDate();
+    public void AddContribution();
+    public void AddGenreToTrack();
 }

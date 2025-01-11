@@ -1,0 +1,21 @@
+{
+  "nr_of_tracks" : 1,
+  "tracklist" : {
+    "UnitedInGrief" : {
+      "performers" : [ "Kendrick" ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "UnitedInGrief",
+      "length" : "0:4:15",
+      "writers" : [ "Kendrick" ],
+      "producers" : [ "Sounwave" ]
+    }
+  },
+  "composers" : [ "Kendrick" ],
+  "release_date" : "",
+  "price" : 0.0,
+  "genres" : [ ],
+  "name" : "MrMorale",
+  "length" : "0:0:0"
+}
