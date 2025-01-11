@@ -1,8 +1,10 @@
 {
   "nr_of_tracks" : 0,
   "tracklist" : { },
+  "composers" : [ "Weekend" ],
   "release_date" : "",
   "price" : 0.0,
+  "genres" : [ ],
   "name" : "Starboy",
   "length" : "0:0:0"
 }

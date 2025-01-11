@@ -4,6 +4,7 @@ import org.javatuples.Triplet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,4 +42,5 @@ public interface IRecord {
 
     boolean AddGenre(String genre);
     boolean RemoveGenre(String genre);
+
 }

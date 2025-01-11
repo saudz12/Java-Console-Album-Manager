@@ -32,6 +32,7 @@ public class Album extends RecordBase{
         }
 
         jsonMap.put("tracklist", trackMap);
+        jsonMap.put("composers", composers.toArray());
 
         return jsonMap;
     }
@@ -108,10 +109,14 @@ public class Album extends RecordBase{
         this.SetLength(h, m, s);
     }
 
-    public void AddTrack(Single track){
+    public boolean AddTrack(Single track){
+        for(Single s :tracklist)
+            if(s.GetName() == track.GetName())
+                return false;
         this.tracklist.add(track);
         super.GetGenres().addAll(track.GetGenres());
         this.nrOfTracks++;
+        return true;
     }
 
     public boolean AddTrack(Single track, int pos){

@@ -53,7 +53,7 @@ public abstract class RecordBase implements IRecord {
         jsonMap.put("release_date", this.GetReleaseDate());
         jsonMap.put("length", this.LengthToString());
         jsonMap.put("price", this.GetPrice());
-
+        jsonMap.put("genres", this.GetGenres().toArray());
 
 
         return jsonMap;
@@ -96,10 +96,12 @@ public abstract class RecordBase implements IRecord {
         return true;
     }
 
+    @Override
     public Triplet<Integer, Integer, Integer> GetLength(){
         return this.length;
     }
 
+    @Override
     public boolean SetReleaseDate(String date){
         Pattern pattern = Pattern.compile("\\d\\d/\\d\\d/[1-9]\\d\\d\\d", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(date);

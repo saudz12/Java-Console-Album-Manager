@@ -36,6 +36,9 @@ public class Single extends RecordBase {
     @Override
     public Map<String, Object> MapObject(){
         Map<String, Object> jsonMap = super.MapObject();
+        jsonMap.put("performers", performers.toArray());
+        jsonMap.put("writers", writers.toArray());
+        jsonMap.put("producers", producers.toArray());
         //implement for sets
         return jsonMap;
     }

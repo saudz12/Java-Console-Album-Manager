@@ -64,23 +64,13 @@ public class CLI implements IView {
                 case 1:{
                     Flush();
                     PrintAllNames();
-                    //view album list
                     break;
                 }
                 case 2:{
                     Flush();
-                    //add album
                     AddAlbum();
-                    EditCurrentAlbum();
                     break;
                 }
-                //case 3:{
-                //    Flush();
-                //    EditCurrentAlbum();
-                //    System.out.println("Saving, please wait..");
-                //    SaveAlbum();
-                //    break;
-                //}
                 case 3:{
                     Flush();
                     SaveAlbum();
@@ -89,7 +79,6 @@ public class CLI implements IView {
                 case 4:{
                     Flush();
                     LoadAlbum();
-                    EditCurrentAlbum();
                     break;
                 }
                 case 5:{
@@ -123,12 +112,18 @@ public class CLI implements IView {
     }
 
     @Override
-    public void AddAlbum(){
+    public void AddAlbum() {
+        PrintAllNames();
         System.out.println("State an album name and an artist's name:");
-        String name = in.next(), artist = in.next();
-        menu.CreateAlbum(name, artist);
-        current_name = name;
-        current_artist = artist;
+        String name = in.next();
+        String artist = in.next();
+        if (menu.CreateAlbum(name, artist)) {
+            current_name = name;
+            current_artist = artist;
+            EditCurrentAlbum();
+            return;
+        }
+        System.out.println("Couldn't create an album with that name and artist..");
     }
 
 
@@ -145,8 +140,12 @@ public class CLI implements IView {
         PrintAllNames();
         System.out.println("State an album name and an artist's name:");
         String name = in.next(), artist = in.next();
-        if(menu.LoadAlbum(name, artist))
+        if(menu.LoadAlbum(name, artist)) {
             System.out.println("Album loaded successfully");
+            current_name = name;
+            current_artist = artist;
+            EditCurrentAlbum();
+        }
         else
             System.out.println("Album not found..");
     }
@@ -271,14 +270,26 @@ public class CLI implements IView {
         }
     }
 
+    public void ViewTrackInfo(){
+        
+    }
+
     @Override
     public void AddTrack(){
+        System.out.println("Enter the new track's name:");
         String name = in.next();
-        menu.AddTrack(name);
+        if(menu.AddTrack(name)){
+            System.out.println("Track added successfully!");
+            EditTrack();
+        }
+        else {
+            System.out.println("Track couldn't be added..");
+        }
     }
 
     @Override
     public void RemoveTrack(){
+        System.out.println("Enter the next-to-be-removed track's name:");
         String trackName = in.next();
         if(menu.RemoveTrack(trackName))
         {
@@ -291,6 +302,7 @@ public class CLI implements IView {
 
     @Override
     public void ChangeReleaseDate(){
+        System.out.println("Enter the new release date:");
         String releaseDate = in.next();
         if(menu.activeAlbum.SetReleaseDate(releaseDate))
             System.out.println("Release date successfully change to " + releaseDate);
@@ -310,6 +322,15 @@ public class CLI implements IView {
 
     @Override
     public void EditTrack(){
+        ViewTracklist();
+        int nr = menu.activeAlbum.GetNrOfTracks();
+        if (nr == 0)
+        {
+            System.out.println("No tracks available: ");
+            return;
+        }
+        System.out.println("Select a track to edit: ");
+
         while (true){
             System.out.println(menu.activeTrack.MapObject());
             PrintTrackOptions();
@@ -320,18 +341,22 @@ public class CLI implements IView {
                 case 1:{
                     Flush();
                     ChangeTrackName();
+                    break;
                 }
                 case 2:{
                     Flush();
                     ChangeTrackDuration();
+                    break;
                 }
                 case 3:{
                     Flush();
                     ChangeTrackReleaseDate();
+                    break;
                 }
                 default:{
                     Flush();
                     System.out.println("Err: Invalid Option..");
+                    break;
                 }
             }
         }
@@ -339,7 +364,8 @@ public class CLI implements IView {
 
     @Override
     public void ChangeTrackName(){
-        System.out.println("Name the track: ");
+        ViewTracklist();
+        System.out.println("Enter the new name: ");
         String name = in.next();
         menu.activeTrack.SetName(name);
     }
@@ -360,6 +386,7 @@ public class CLI implements IView {
 
     @Override
     public void ChangeTrackReleaseDate(){
+        System.out.println("Enter the new release date:");
         String date = in.next();
         if(menu.activeTrack.SetReleaseDate(date))
             System.out.println("Release date successfully change to " + date);

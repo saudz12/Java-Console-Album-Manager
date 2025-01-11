@@ -1,8 +1,10 @@
 {
   "nr_of_tracks" : 0,
   "tracklist" : { },
+  "composers" : [ "Kendrick" ],
   "release_date" : "",
   "price" : 123.12,
+  "genres" : [ ],
   "name" : "GNX",
-  "length" : "3:2:1"
+  "length" : "0:0:0"
 }

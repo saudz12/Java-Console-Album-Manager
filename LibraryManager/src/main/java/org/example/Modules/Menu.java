@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.Interfaces.IController;
+import org.example.Interfaces.IRecord;
 import org.javatuples.Triplet;
 import org.json.JSONObject;
 
@@ -99,6 +100,7 @@ public class Menu implements IController {
         return true;
     }
 
+    @Override
     public boolean SetReleaseDate(String date){
         System.out.println("Date of incorect format.. Must be [\\d\\d:\\d\\d:\\d\\d\\d\\d]");
         return activeAlbum.SetReleaseDate(date);
@@ -160,13 +162,23 @@ public class Menu implements IController {
                 int sh = Integer.parseInt(vals2[0]);
                 int sm = Integer.parseInt(vals2[1]);
                 int ss = Integer.parseInt(vals2[2]);
-
                 parsedSingle.SetLength(sh, sm, ss);
+
+                Set<String> performerSet = (Set<String>) trackDetail.get("performers");
+                parsedSingle.SetArtists(performerSet, IRecord.ContributionType.Performer);
+
+                Set<String> writerSet = (Set<String>) trackDetail.get("writers");
+                parsedSingle.SetArtists(writerSet, IRecord.ContributionType.Writer);
+
+                Set<String> producerSet = (Set<String>) trackDetail.get("producers");
+                parsedSingle.SetArtists(producerSet, IRecord.ContributionType.Producer);
 
                 parsedTracklsit.add(parsedSingle);
             }
-
             parsedAlbum.SetTracklist(parsedTracklsit);
+
+            Set<String> composerSet = (Set<String>) jsonMap.get("composers");
+            parsedAlbum.SetArtists(composerSet, IRecord.ContributionType.Composer);
 
             activeAlbum = parsedAlbum;
             activeFullName = name + "-" + artist;
@@ -211,6 +223,7 @@ public class Menu implements IController {
         return true;
     }
 
+    @Override
     public boolean RemoveAlbum(String name, String artist) {
         String fullname = name + "-" + artist;
         if(!albums.contains(fullname))
@@ -232,6 +245,7 @@ public class Menu implements IController {
         return true;
     }
 
+    @Override
     public boolean RemoveTrack(String trackName){
         if (activeAlbum == null)
             return false;
@@ -243,7 +257,6 @@ public class Menu implements IController {
     public String GetInfo(String name, String artist) {
         if(!this.albums.contains(name + "-" + artist))
             return null;
-
         try{
             System.out.println(activeFullName);
             File albumData = new File(Menu.pathname + name + "-" + artist + ".json");
@@ -258,17 +271,44 @@ public class Menu implements IController {
         }
     }
 
+    @Override
     public boolean AddTrack(String name){
         if (activeAlbum == null)
             return  false;
 
-        activeTrack = new Single(name);
+        Single toAdd = new Single(name);
 
-        activeAlbum.AddTrack(activeTrack);
+        if(activeAlbum.AddTrack(toAdd))
+        {
+            activeTrack = toAdd;
+            return true;
+        }
 
+        return false;
+    }
+
+    @Override
+    public boolean ViewTrackInfo(String name){
+        for(Single track : activeAlbum.GetTracklist()){
+            if(track.GetName() == name){
+                System.out.println("Name: " + track.GetName());
+                System.out.println("Release date: " + track.GetReleaseDate());
+                System.out.println("Length: " + track.GetLength());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean ChangeActiveTrackName(String name){
+        for(Single track : activeAlbum.GetTracklist())
+            if(track.GetName() == name)
+                return false;
         return true;
     }
 
+    @Override
     public boolean ChangeDurationToActiveTrack(int h, int m, int s){
         if(activeTrack == null)
             return false;
