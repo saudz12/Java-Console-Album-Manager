@@ -1,5 +1,5 @@
 {
-  "nr_of_tracks" : 4,
+  "nr_of_tracks" : 5,
   "tracklist" : {
     "ADHD" : {
       "performers" : [ ],
@@ -7,17 +7,27 @@
       "price" : 0.0,
       "genres" : [ ],
       "name" : "ADHD",
-      "length" : "0:0:0",
-      "writers" : [ ],
+      "length" : "0:3:4",
+      "writers" : [ "Kendrick Lamar" ],
       "producers" : [ ]
     },
-    "Hold Up" : {
+    "Ronald Regan era" : {
       "performers" : [ ],
       "release_date" : "",
       "price" : 0.0,
       "genres" : [ ],
-      "name" : "Hold Up",
+      "name" : "Ronald Regan era",
       "length" : "0:0:0",
+      "writers" : [ ],
+      "producers" : [ ]
+    },
+    "Hol' Up" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "Hol' Up",
+      "length" : "0:2:45",
       "writers" : [ ],
       "producers" : [ ]
     },
@@ -43,7 +53,7 @@
     }
   },
   "composers" : [ "Kendrick Lamar" ],
-  "release_date" : "",
+  "release_date" : "12/10/2011",
   "price" : 0.0,
   "genres" : [ ],
   "name" : "Section 80.",

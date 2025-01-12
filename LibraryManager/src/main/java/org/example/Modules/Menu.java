@@ -311,13 +311,15 @@ public class Menu implements IController {
     public boolean ChangeDurationToActiveTrack(int h, int m, int s){
         if(activeTrack == null)
             return false;
-        if(!activeTrack.SetLength(h, m, s))
-            return false;
 
         int dH, dM, dS;
         dH = activeTrack.GetLength().getValue0();
         dM = activeTrack.GetLength().getValue1();
         dS = activeTrack.GetLength().getValue2();
+
+        if(!activeTrack.SetLength(h, m, s))
+            return false;
+
 
         int oldH, oldM, oldS;
         oldH = activeAlbum.GetLength().getValue0();
@@ -331,12 +333,23 @@ public class Menu implements IController {
             newS += 60;
             newM -= 1;
         }
+        while (newS >= 60){
+            newS -= 60;
+            newM += 1;
+        }
+        
         newM = newM - dM + m;
         while (newM < 0){
+            newM -= 60;
+            newH += 1;
+        }
+        while (newM >= 60){
             newM += 60;
             newH -= 1;
         }
+
         newH = newH - dH + h;
+
         if(newH < 0) {
             activeTrack.SetLength(dH, dM, dS);
             return false;

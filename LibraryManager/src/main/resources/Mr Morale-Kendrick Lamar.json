@@ -1,0 +1,41 @@
+{
+  "nr_of_tracks" : 3,
+  "tracklist" : {
+    "Die Hard" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "Die Hard",
+      "length" : "0:3:59",
+      "writers" : [ ],
+      "producers" : [ ]
+    },
+    "N95" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "N95",
+      "length" : "0:3:15",
+      "writers" : [ ],
+      "producers" : [ ]
+    },
+    "United in Grief" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ "Concious Hip Hop" ],
+      "name" : "United in Grief",
+      "length" : "0:4:15",
+      "writers" : [ "Kendrick Lamar" ],
+      "producers" : [ ]
+    }
+  },
+  "composers" : [ "Kendrick Lamar" ],
+  "release_date" : "",
+  "price" : 0.0,
+  "genres" : [ ],
+  "name" : "Mr Morale",
+  "length" : "0:11:29"
+}

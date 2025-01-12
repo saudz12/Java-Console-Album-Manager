@@ -1,5 +1,5 @@
 {
-  "nr_of_tracks" : 11,
+  "nr_of_tracks" : 9,
   "tracklist" : {
     "Dark Fantasy" : {
       "performers" : [ ],
@@ -23,26 +23,6 @@
     },
     "Monster" : {
       "performers" : [ ],
-      "Lost In The World" : {
-        "performers" : [ ],
-        "release_date" : "",
-        "price" : 0.0,
-        "genres" : [ ],
-        "name" : "Lost In The World",
-        "length" : "0:0:0",
-        "writers" : [ ],
-        "producers" : [ ]
-      },
-      "So appalled" : {
-        "performers" : [ ],
-        "release_date" : "",
-        "price" : 0.0,
-        "genres" : [ ],
-        "name" : "So appaled",
-        "length" : "0:0:0",
-        "writers" : [ ],
-        "producers" : [ ]
-      },
       "release_date" : "",
       "price" : 0.0,
       "genres" : [ ],

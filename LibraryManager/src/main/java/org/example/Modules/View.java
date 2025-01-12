@@ -44,13 +44,13 @@ public class View implements IView {
     public void Run(){
         while (true){
             PrintMenu();
-            int option = in.nextInt();
+            int option = numberReader.nextInt();
             switch (option){
                 case 0:{
                     Flush();
                     //exit
                     System.out.println("Save changes before exiting? 1 (YES) / 0 (NO)");
-                    int save = in.nextInt();
+                    int save = numberReader.nextInt();
                     switch (save){
                         case 1:
                             System.out.println("Saving, please wait...");
@@ -210,11 +210,11 @@ public class View implements IView {
             //PrintAllNames();
             //System.out.println(menu.activeAlbum.MapObject());
             PrintAlbumOptions();
-            int op = in.nextInt();
+            int op = numberReader.nextInt();
             switch (op){
                 case 0:
                     System.out.println("Save changes before exiting? 1 (YES) / 0 (NO)");
-                    int save = in.nextInt();
+                    int save = numberReader.nextInt();
                     switch (save){
                         case 1:
                             System.out.println("Saving, please wait...");
@@ -376,7 +376,7 @@ public class View implements IView {
         while (true){
             menu.ViewTrackInfo(name);
             PrintTrackOptions();
-            int option = in.nextInt();
+            int option = numberReader.nextInt();
             switch (option){
                 case 0:
                     return;
