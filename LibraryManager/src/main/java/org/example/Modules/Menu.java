@@ -286,7 +286,8 @@ public class Menu implements IController {
     @Override
     public boolean ViewTrackInfo(String name){
         for(Single track : activeAlbum.GetTracklist()){
-            if(track.GetName() == name){
+            String trackName = track.GetName();
+            if(trackName.equals(name)){
                 System.out.println("Name: " + track.GetName());
                 System.out.println("Release date: " + track.GetReleaseDate());
                 System.out.println("Length: " + track.GetLength());
@@ -298,9 +299,11 @@ public class Menu implements IController {
 
     @Override
     public boolean ChangeActiveTrackName(String name){
-        for(Single track : activeAlbum.GetTracklist())
-            if(track.GetName() == name)
+        for(Single track : activeAlbum.GetTracklist()) {
+            String trackName = track.GetName();
+            if(trackName.equals(name))
                 return false;
+        }
         return true;
     }
 
@@ -355,11 +358,13 @@ public class Menu implements IController {
 
     @Override
     public boolean SelectTrack(String name){
-        for(Single track : activeAlbum.GetTracklist())
-            if(track.GetName() == name){
+        for(Single track : activeAlbum.GetTracklist()) {
+            String trackName = track.GetName();
+            if (trackName.equals(name)) {
                 activeTrack = track;
                 return true;
             }
+        }
         activeTrack = null;
         return false;
     }

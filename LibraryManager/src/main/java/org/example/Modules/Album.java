@@ -13,7 +13,7 @@ public class Album extends RecordBase{
 
     public Album(String name, String artist){
         super(name);
-        if(artist == "")
+        if(artist.isEmpty())
             throw new RuntimeException("Can't have empty artist name");
         this.tracklist = new ArrayList<Single>();
         this.composers = new HashSet<String>();
@@ -110,9 +110,10 @@ public class Album extends RecordBase{
     }
 
     public boolean AddTrack(Single track){
-        for(Single s :tracklist)
-            if(s.GetName() == track.GetName())
+        for(Single s :tracklist) {
+            if (s.GetName().equals(track.GetName()))
                 return false;
+        }
         this.tracklist.add(track);
         super.GetGenres().addAll(track.GetGenres());
         this.nrOfTracks++;
@@ -125,7 +126,7 @@ public class Album extends RecordBase{
         if(pos == nrOfTracks)
             return AddTrack(track);
         for(Single s :tracklist)
-            if(s.GetName() == track.GetName())
+            if(s.GetName().equals(track.GetName()))
                 return false;
         this.tracklist.add(pos - 1, track);
         super.GetGenres().addAll(track.GetGenres());
@@ -143,7 +144,8 @@ public class Album extends RecordBase{
 
     public boolean RemoveTrack(String singleName){
         for(var single : this.tracklist){
-            if(single.GetName() == singleName){
+            String trackName = single.GetName();
+            if(trackName.equals(singleName)){
                 this.tracklist.remove(single);
                 this.nrOfTracks--;
                 return true;

@@ -8,12 +8,14 @@ public class View implements IView {
     Menu menu;
 
     Scanner in;
+    Scanner numberReader;
 
     String current_name = null;
     String current_artist = null;
 
     public View(){
         in = new Scanner(System.in).useDelimiter("\\n");
+        numberReader = new Scanner(System.in);
         menu = new Menu();
     }
 
@@ -195,6 +197,7 @@ public class View implements IView {
         System.out.println("5. Edit Track");
         System.out.println("6. Change Release Date");
         System.out.println("7. Add genre");
+        System.out.println("8. Save album");
     }
 
     @Override
@@ -205,7 +208,7 @@ public class View implements IView {
         }
         while (true){
             //PrintAllNames();
-            System.out.println(menu.activeAlbum.MapObject());
+            //System.out.println(menu.activeAlbum.MapObject());
             PrintAlbumOptions();
             int op = in.nextInt();
             switch (op){
@@ -259,6 +262,16 @@ public class View implements IView {
                     ChangeReleaseDate();
                     break;
                 }
+                case 7:{
+                    Flush();
+                    AddGenreToAlbum();
+                    break;
+                }
+                case 8:{
+                    Flush();
+                    SaveAlbum();
+                    break;
+                }
                 default:{
                     Flush();
                     System.out.println("Err: Invalid Option..");
@@ -270,7 +283,7 @@ public class View implements IView {
     @Override
     public void ViewTracklist(){
         var tl = menu.activeAlbum.GetTracklist();
-        System.out.println("Current Tracklist: " + menu.activeAlbum.GetNrOfTracks() + "tracks, runtime of " + menu.activeAlbum.GetLength());
+        System.out.println("Current Tracklist: " + menu.activeAlbum.GetNrOfTracks() + " tracks, runtime of " + menu.activeAlbum.GetLength());
         for(int i = 0; i < tl.size(); i++){
             System.out.println(i+1 + ". " + tl.get(i).GetName());
         }
@@ -286,6 +299,7 @@ public class View implements IView {
 
     @Override
     public void AddTrack(){
+        ViewTracklist();
         System.out.println("Enter the new track's name:");
         String name = in.next();
         if(menu.AddTrack(name)){
@@ -298,6 +312,7 @@ public class View implements IView {
 
     @Override
     public void RemoveTrack(){
+        ViewTracklist();
         System.out.println("Enter the next-to-be-removed track's name:");
         String trackName = in.next();
         if(menu.RemoveTrack(trackName))
@@ -316,7 +331,7 @@ public class View implements IView {
         if(menu.activeAlbum.SetReleaseDate(releaseDate))
             System.out.println("Release date successfully change to " + releaseDate);
         else
-            System.out.println("new release date does not match format <\\d\\d/\\d\\d/[1-9]\\d\\d\\d>");
+            System.out.println("new release date does not match format <[2 digits]]/[2 digits]]/[4 digits]>");
     }
 
     @Override
@@ -415,7 +430,7 @@ public class View implements IView {
     @Override
     public void ChangeTrackDuration(){
         System.out.println("Read length in {hours, minutes, seconds} for the track: ");
-        int h = in.nextInt(), m = in.nextInt(), s = in.nextInt();
+        int h = numberReader.nextInt(), m = numberReader.nextInt(), s = numberReader.nextInt();
         if(menu.ChangeDurationToActiveTrack(h, m, s))
         {
             System.out.println("Length change to " + menu.activeTrack.LengthToString());

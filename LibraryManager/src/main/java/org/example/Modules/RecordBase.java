@@ -17,7 +17,7 @@ public abstract class RecordBase implements IRecord {
     private double price;
 
     public RecordBase(String name){
-        if(name == "")
+        if(name.isEmpty())
             throw new RuntimeException("Can't have empty album name");
         this.name = name;
         this.releaseDate = "";
@@ -27,7 +27,7 @@ public abstract class RecordBase implements IRecord {
     }
 
     public RecordBase(String name, Triplet<Integer,Integer,Integer> length){
-        if(name == "")
+        if(name.isEmpty())
             throw new RuntimeException("Can't have empty album name");
         this.name = name;
         this.releaseDate = "";
@@ -37,7 +37,7 @@ public abstract class RecordBase implements IRecord {
     }
 
     public RecordBase(String name, Triplet<Integer,Integer,Integer> length, double price){
-        if(name == "")
+        if(name.isEmpty())
             throw new RuntimeException("Can't have empty album name");
         this.name = name;
         this.releaseDate = "";
@@ -103,7 +103,7 @@ public abstract class RecordBase implements IRecord {
 
     @Override
     public boolean SetReleaseDate(String date){
-        Pattern pattern = Pattern.compile("\\d\\d/\\d\\d/[1-9]\\d\\d\\d", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("\\d\\d/\\d\\d/\\d\\d\\d\\d", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(date);
         if(matcher.find()) {
             this.releaseDate = date;

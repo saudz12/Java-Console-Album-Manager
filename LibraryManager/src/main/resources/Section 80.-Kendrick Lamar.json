@@ -1,6 +1,47 @@
 {
-  "nr_of_tracks" : 0,
-  "tracklist" : { },
+  "nr_of_tracks" : 4,
+  "tracklist" : {
+    "ADHD" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "ADHD",
+      "length" : "0:0:0",
+      "writers" : [ ],
+      "producers" : [ ]
+    },
+    "Hold Up" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "Hold Up",
+      "length" : "0:0:0",
+      "writers" : [ ],
+      "producers" : [ ]
+    },
+    "Hiiigh Power" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "Hiiigh Power",
+      "length" : "0:0:0",
+      "writers" : [ ],
+      "producers" : [ ]
+    },
+    "Rigamortus" : {
+      "performers" : [ ],
+      "release_date" : "",
+      "price" : 0.0,
+      "genres" : [ ],
+      "name" : "Rigamortus",
+      "length" : "0:0:0",
+      "writers" : [ ],
+      "producers" : [ ]
+    }
+  },
   "composers" : [ "Kendrick Lamar" ],
   "release_date" : "",
   "price" : 0.0,
